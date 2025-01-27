@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": false,
+    "types": ["bun-types"]
+    // "jsx": "react-jsx",
+    // "jsxImportSource": "hono/jsx"
+  }
+}

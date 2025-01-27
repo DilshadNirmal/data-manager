@@ -1,0 +1,17 @@
+{
+  "name": "data-manager",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "hono": "^4.6.17",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "@hono/eslint-config": "^1.0.2",
+    "@types/bun": "latest",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3"
+  }
+}
