@@ -36,4 +36,4 @@ const sendData = async (): Promise<void> => {
 
 setInterval(() => {
   sendData();
-}, 50000);
+}, 1000);
