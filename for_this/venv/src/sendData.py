@@ -42,9 +42,11 @@ def get_data():
             uploaded_again_collection.create_index([("createdAt", 1)])
             logging.info("Indexes on createdAt filed have been ensured.")
             last_processed_timestamp = None
+            last_processed_false_timestamp = None
 
             while True:
                 # Fetch new records
+                # logging.info(f"last processed time before while: {last_processed_timestamp}")
                 new_docs = fetch_new_records(sensors_collection, last_processed_timestamp)
                 if new_docs:
                     # logging.info(f"saved document length: {len(new_docs)}")
@@ -52,8 +54,10 @@ def get_data():
                         logging.debug(f"Processing document: {doc}")
                         if doc["network"]:
                             # Process related false records and save them
-                            false_docs = process_true_record(sensors_collection, doc, last_processed_timestamp)
-                            last_processed_timestamp = None
+                            false_docs = process_true_record(sensors_collection, doc, last_processed_false_timestamp)
+                            last_processed_timestamp = last_processed_false_timestamp
+                            # logging.info(f"last processed time: {last_processed_timestamp}")
+                            last_processed_false_timestamp = None
                             for false_doc in false_docs:
                                 save_to_uploaded_again(uploaded_again_collection, false_doc)
 
@@ -61,12 +65,12 @@ def get_data():
                             save_to_uploaded_again(uploaded_again_collection, doc)
                         else:
                             # Update last processed timestamp for false records
-                            if last_processed_timestamp is None:
-                                last_processed_timestamp = doc["createdAt"]
-                                # logging.info(f"Updated last_processed_timestamp: {last_processed_timestamp}")
+                            if last_processed_false_timestamp is None:
+                                last_processed_false_timestamp = doc["createdAt"]
+                                # logging.info(f"Updated last_processed_false_timestamp: {last_processed_false_timestamp}")
                 else:
                     logging.info("No new records found. Waiting...")
-                    time.sleep(1)
+                    # time.sleep(1)
     except Exception as e:
         logging.error(f"An error occurred: {e}")
 
