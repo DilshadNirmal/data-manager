@@ -38,6 +38,9 @@ def get_data():
             sensors_collection = database["sensors"]
             uploaded_again_collection = database["uploaded-again"]
 
+            sensors_collection.create_index([("createdAt", 1)])
+            uploaded_again_collection.create_index([("createdAt", 1)])
+            logging.info("Indexes on createdAt filed have been ensured.")
             last_processed_timestamp = None
 
             while True:
